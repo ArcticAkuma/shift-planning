@@ -4,12 +4,13 @@ import haw.hof.shiftplanning.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @ToString
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)  //todo: check if more needed
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)  //todo: check if more needed  + ranks for toString
 
 @Entity
 public class Contract {
@@ -20,6 +21,7 @@ public class Contract {
     @Column(updatable = false, nullable = false)
     private int id;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false, referencedColumnName = "id")
     private User user;
@@ -28,16 +30,28 @@ public class Contract {
     private int workingHours;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime validFrom;
-    @Setter
+    private LocalDate validFrom;
     @Column(nullable = false)
-    private LocalDateTime validTo;
+    private LocalDate validTo;
 
+    @ToString.Exclude
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    public Contract(User user, int workingHours, LocalDate validFrom, LocalDate validTo) {
+        this.user = user;
+        this.workingHours = workingHours;
+        this.validFrom = validFrom;
+        this.validTo = validTo;
+    }
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    @ToString.Include(name = "user")
+    private String getUserName() {
+        return this.user != null ? this.user.getFirstName() + " " + this.user.getLastName() : null;
     }
 }

@@ -2,8 +2,8 @@ package haw.hof.shiftplanning.exception;
 
 import haw.hof.shiftplanning.exception.exception.EntityAlreadyExistsException;
 import haw.hof.shiftplanning.exception.exception.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import jakarta.servlet.http.HttpServletRequest;
-import org.hibernate.PropertyValueException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
@@ -24,9 +25,9 @@ public class DefaultExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({DataIntegrityViolationException.class, PropertyValueException.class})
+    @ExceptionHandler({DataIntegrityViolationException.class, PersistenceException.class, SQLException.class, IllegalArgumentException.class})
     public ResponseEntity<ApiError> handleBadRequest(Exception exception, HttpServletRequest request) {
-        ApiError apiError = new ApiError(request.getRequestURI(), exception.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
+        ApiError apiError = new ApiError(request.getRequestURI(), exception instanceof IllegalArgumentException ? exception.getMessage() : "Invalid data supplied", HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
 
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }

@@ -37,7 +37,7 @@ public class DepartmentController {
 
     @GetMapping("/search")
     public ResponseEntity<List<Department>> searchDepartments(@RequestParam  String searchTerm, @RequestParam(defaultValue = "0") Integer offset, @RequestParam(defaultValue = "10") Integer limit) {
-        return new ResponseEntity<>(this.departmentService.searchDepartments(searchTerm, offset, limit), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.departmentService.searchDepartments(searchTerm, offset, limit), HttpStatus.OK);
     }
 
     @PostMapping

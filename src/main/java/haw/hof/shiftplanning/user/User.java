@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)  //todo: check if more needed
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)  //todo: check if more needed + ranks for toString
 
 @Entity
 public class User {
@@ -31,10 +31,12 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
+    @ToString.Exclude
     @Setter
     @ManyToOne
     @JoinColumn(nullable = false, referencedColumnName = "id")
     private Department department;
+
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -43,9 +45,9 @@ public class User {
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
     @ToString.Exclude
-    @Setter
     @Column(nullable = false)
     private String passwordHash;
+    @ToString.Exclude
     @Setter
     @Column(nullable = false, updatable = false)
     private LocalDateTime lastPasswordChange;
@@ -60,6 +62,7 @@ public class User {
     @Setter
     private boolean active;
 
+    @ToString.Exclude
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -78,5 +81,16 @@ public class User {
         this.language = UserLanguage.ENGLISH;
         this.active = true;
         this.createdAt = this.lastPasswordChange = LocalDateTime.now();
+    }
+
+    @ToString.Include(name = "department")
+    private String getDepartmentName() {
+        return this.department != null ? this.department.getName() : null;
+    }
+
+    public void setPassword(String password) {
+        //todo
+        this.passwordHash = password;
+        this.lastPasswordChange = LocalDateTime.now();
     }
 }

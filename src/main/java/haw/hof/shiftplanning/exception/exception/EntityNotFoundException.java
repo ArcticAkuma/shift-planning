@@ -2,8 +2,12 @@ package haw.hof.shiftplanning.exception.exception;
 
 public class EntityNotFoundException extends RuntimeException {
 
-    public EntityNotFoundException(String name, Integer id) {
-        super("Could not find " + name + " with id " + id);
+    public EntityNotFoundException(String module, Integer id) {
+        super("Could not find " + module + " with id " + id);
+    }
+
+    public EntityNotFoundException(String module, String name) {
+        super("Could not find " + module + " with name " + name);
     }
 
     public EntityNotFoundException(Integer id) {

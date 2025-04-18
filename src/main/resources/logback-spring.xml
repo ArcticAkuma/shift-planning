@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Define a rolling policy for logs that rolls by day -->
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app.log</file>  <!-- Path to the main log file -->
+
+        <!-- Time-based rolling policy: daily logs -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/app-%d{yyyy-MM-dd}.log</fileNamePattern>  <!-- Log file name with date -->
+            <maxHistory>30</maxHistory>  <!-- Keep logs for the last 30 days -->
+        </rollingPolicy>
+
+        <!-- Log output format -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root logger configuration -->
+    <root level="INFO">
+        <appender-ref ref="ROLLING" />
+    </root>
+
+</configuration>

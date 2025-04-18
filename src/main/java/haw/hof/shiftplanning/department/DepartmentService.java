@@ -28,7 +28,7 @@ public class DepartmentService {
     }
 
     public List<Department> searchDepartments(String searchTerm, int offset, int limit) {
-        return this.departmentRepository.findByNameStartingWith(searchTerm, PageRequest.of(offset, limit));
+        return this.departmentRepository.findDepartmentByNameStartingWith(searchTerm, PageRequest.of(offset, limit));
     }
 
     public Department addDepartment(Department department) {
@@ -51,7 +51,7 @@ public class DepartmentService {
     }
 
     public Department deleteDepartment(@PathVariable Integer id) {
-        Department department = getDepartmentById(id);
+        //Department department = getDepartmentById(id);
         //todo: only delete if NO shift plans archived yet: DataIntegrityViolationException - or create new one: ArchiveIntegrityViolationException
         throw new UnsupportedOperationException("Not supported yet.");
     }

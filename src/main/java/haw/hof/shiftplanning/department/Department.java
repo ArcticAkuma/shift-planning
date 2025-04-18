@@ -25,6 +25,7 @@ public class Department {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @ToString.Exclude
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
