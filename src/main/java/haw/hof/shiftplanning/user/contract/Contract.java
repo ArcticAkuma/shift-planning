@@ -21,6 +21,7 @@ public class Contract {
     @Column(updatable = false, nullable = false)
     private int id;
 
+    @Setter  //mapping
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false, referencedColumnName = "id")
@@ -38,6 +39,7 @@ public class Contract {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    //todo: @NotNull / @Valid ?
     public Contract(User user, int workingHours, LocalDate validFrom, LocalDate validTo) {
         this.user = user;
         this.workingHours = workingHours;

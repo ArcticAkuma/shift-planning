@@ -13,4 +13,8 @@ public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(Integer id) {
         super("Id " + id + " not found");
     }
+
+    public EntityNotFoundException(String name) {
+        super("No " + name + " found");
+    }
 }

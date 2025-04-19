@@ -9,9 +9,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Getter
-@ToString
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)  //todo: check if more needed + ranks for toString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 @Entity
 public class User {
@@ -31,7 +30,6 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
-    @ToString.Exclude
     @Setter
     @ManyToOne
     @JoinColumn(nullable = false, referencedColumnName = "id")
@@ -44,10 +42,8 @@ public class User {
 
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
-    @ToString.Exclude
     @Column(nullable = false)
     private String passwordHash;
-    @ToString.Exclude
     @Setter
     @Column(nullable = false, updatable = false)
     private LocalDateTime lastPasswordChange;
@@ -62,7 +58,6 @@ public class User {
     @Setter
     private boolean active;
 
-    @ToString.Exclude
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -83,14 +78,24 @@ public class User {
         this.createdAt = this.lastPasswordChange = LocalDateTime.now();
     }
 
-    @ToString.Include(name = "department")
-    private String getDepartmentName() {
-        return this.department != null ? this.department.getName() : null;
-    }
-
     public void setPassword(String password) {
         //todo
         this.passwordHash = password;
         this.lastPasswordChange = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", department=" + department.getName() +
+                ", role=" + role +
+                ", email='" + email + '\'' +
+                ", language=" + language +
+                ", personnelId=" + personnelId +
+                ", active=" + active +
+                '}';
     }
 }

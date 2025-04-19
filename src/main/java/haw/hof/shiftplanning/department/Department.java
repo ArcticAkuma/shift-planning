@@ -6,9 +6,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Getter
-@ToString
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)  //todo: check if more needed
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 @Entity
 public class Department {
@@ -25,7 +24,6 @@ public class Department {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ToString.Exclude
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -36,5 +34,13 @@ public class Department {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

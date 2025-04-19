@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -25,7 +26,7 @@ public class DefaultExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({DataIntegrityViolationException.class, PersistenceException.class, SQLException.class, IllegalArgumentException.class})
+    @ExceptionHandler({DataIntegrityViolationException.class, PersistenceException.class, SQLException.class, IllegalArgumentException.class, MethodArgumentNotValidException.class})
     public ResponseEntity<ApiError> handleBadRequest(Exception exception, HttpServletRequest request) {
         ApiError apiError = new ApiError(request.getRequestURI(), exception instanceof IllegalArgumentException ? exception.getMessage() : "Invalid data supplied", HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
 

@@ -2,6 +2,8 @@ package haw.hof.shiftplanning;
 
 import haw.hof.shiftplanning.department.Department;
 import haw.hof.shiftplanning.department.DepartmentRepository;
+import haw.hof.shiftplanning.shift.type.ShiftType;
+import haw.hof.shiftplanning.shift.type.ShiftTypeRepository;
 import haw.hof.shiftplanning.user.User;
 import haw.hof.shiftplanning.user.UserRepository;
 import haw.hof.shiftplanning.user.contract.Contract;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @SpringBootApplication
@@ -25,7 +28,7 @@ public class ShiftPlanningApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(DepartmentRepository departmentRepository, UserRepository userRepository, ContractRepository contractRepository) {
+    CommandLineRunner commandLineRunner(DepartmentRepository departmentRepository, UserRepository userRepository, ContractRepository contractRepository, ShiftTypeRepository shiftTypeRepository) {
         return args -> {
             Department department = new Department("Logistics 1");
             departmentRepository.saveAll(List.of(department,
@@ -43,6 +46,9 @@ public class ShiftPlanningApplication {
                     new Contract(user1, 8, LocalDate.of(2025, 3, 31), LocalDate.of(2027, 3, 31)),
                     new Contract(user2, 6, LocalDate.of(2024, 3, 31), LocalDate.of(2025, 3, 31))
             ));
+
+            ShiftType shiftType = new ShiftType(department, "Morning Shift", "Morning Shift", "ff5733", LocalTime.of(6, 0), 8);
+            shiftTypeRepository.saveAll(List.of(shiftType));
         };
     }
 }
